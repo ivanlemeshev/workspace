@@ -84,6 +84,8 @@ useradd -m -s "${shell}" -d "${home}" -u "${userid}" -g "${groupid}" "${username
 # The user can run any command as any user without being asked for a password.
 echo "${username} ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
 
+mv /dot /home/"${username}"/dot
+
 # Change the owner and group of the files or directories at the home directory
 # recursively.
 chown -R "${username}:${group}" "${home}"

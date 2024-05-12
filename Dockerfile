@@ -10,5 +10,6 @@ RUN apt update \
     && apt autoclean -y
 
 COPY ./workspace/entry.sh /entry.sh
+COPY ./dot /dot
 
 ENTRYPOINT ["sh", "/entry.sh"]

@@ -7,6 +7,7 @@ set -e
 echo "--- Updating dotfiles"
 git submodule update --init --recursive
 cd dot
+git checkout main
 git pull origin main
 cd -
 
@@ -26,7 +27,7 @@ run_workspace_container() {
     # Check if the Docker container exists.
     if [[ -z "$(docker ps -aq -f name=${container_name} 2> /dev/null)" ]]; then
         echo "--- Creating a new Docker container ${container_name}"
-        docker run -it -v $(pwd):/dot -h "${hostname}" --name "${container_name}" "${image_name}"
+        docker run -it -h "${hostname}" --name "${container_name}" "${image_name}"
     else
         echo "--- Starting the existing Docker container ${container_name}"
         docker start -i "${container_name}"

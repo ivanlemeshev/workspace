@@ -6,6 +6,9 @@ set -e
 
 echo "--- Updating dotfiles"
 git submodule update --init --recursive
+cd dot
+git pull origin main
+cd -
 
 image_name="ivanlemeshev/workspace"
 container_name="ivanlemeshev_workspace"

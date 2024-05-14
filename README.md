@@ -3,7 +3,8 @@
 This is a Docker image with Ubuntu 24.04 that can be used as a workspace for
 development or a sandbox for experiments.
 
-It uses my personal dotfiles as a submodule and has a few tools pre-installed.
+During the first run, it clones the dotfiles repository with my personal
+dotfiles.
 
 ## Usage
 
@@ -13,7 +14,14 @@ To run the container, you can use the following command:
 ./run.sh
 ```
 
-This will start the container and mount a volume with the dotfiles repository.
+This will build and run the container and ask you some questions to set up it.
+
+To set up the workspace, you can use the following command:
+
+```bash
+cd code/github.com/dot
+./setup-ubuntu.sh
+```
 
 To clean up the container and image, you can use the following command:
 

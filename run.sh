@@ -1,40 +1,47 @@
 #!/bin/bash
 
-# This option tells the shell to exit immediately if any command exits with a
-# non-zero status.
 set -e
 
-echo "--- Updating dotfiles"
-git submodule update --init --recursive
-cd dot
-git checkout main
-git pull origin main
-cd -
+function print_header() {
+    local title="$*"
+    local width=80
+    local padding=$((width - 2 - ${#title}))
+
+    echo -n "╔"
+    for ((i=0; i<width-2; i++)); do
+        echo -n "═"
+    done
+    echo "╗"
+
+    echo -n "║ $title"
+    for ((i=0; i<padding-1; i++)); do
+        echo -n " "
+    done
+    echo "║"
+
+    echo -n "╚"
+    for ((i=0; i<width-2; i++)); do
+        echo -n "═"
+    done
+    echo "╝"
+}
+
+print_header "Runnin Ubuntu in a Docker contasiner"
 
 image_name="ivanlemeshev/workspace"
 container_name="ivanlemeshev_workspace"
 hostname="workspace"
 
-build_workspace_image() {
-    # Check if the Docker image exists.
-    if [[ -z "$(docker images -q ${image_name} 2> /dev/null)" ]]; then
-        echo "--- Building the Docker image ${image_name}"
-        docker build -t "${image_name}" -f Dockerfile .
-    fi
-}
+if [[ -z "$(docker images -q ${image_name} 2> /dev/null)" ]]; then
+    print_header "Building image: ${image_name}"
+    docker build -t "${image_name}" -f Dockerfile .
+fi
 
-run_workspace_container() {
-    # Check if the Docker container exists.
-    if [[ -z "$(docker ps -aq -f name=${container_name} 2> /dev/null)" ]]; then
-        echo "--- Creating a new Docker container ${container_name}"
-        docker run -it -h "${hostname}" --name "${container_name}" "${image_name}"
-    else
-        echo "--- Starting the existing Docker container ${container_name}"
-        docker start -i "${container_name}"
-    fi
-}
 
-echo "--- Run Ubuntu in a Docker container"
-echo "--- It can be used as a workspace for development or a sandbox for experiments"
-build_workspace_image
-run_workspace_container
+if [[ -z "$(docker ps -aq -f name=${container_name} 2> /dev/null)" ]]; then
+    print_header "Running the new container: ${container_name}"
+    docker run -it -h "${hostname}" --name "${container_name}" "${image_name}"
+else
+    print_header "Running the existing container: ${container_name}"
+    docker start -i "${container_name}"
+fi

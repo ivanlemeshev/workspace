@@ -5,11 +5,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update \
     && apt upgrade -y \
-    && apt install -y sudo \
+    && apt install -y sudo git \
     && apt autoremove -y \
     && apt autoclean -y
 
 COPY ./workspace/entry.sh /entry.sh
-COPY ./dot /dot
 
 ENTRYPOINT ["sh", "/entry.sh"]

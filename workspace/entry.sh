@@ -41,8 +41,8 @@ useradd -m -s "/bin/bash" -d "${home_directory}" -u "${userid}" -g "${groupid}" 
 # The user can run any command as any user without being asked for a password.
 echo "${username} ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-mkdir -p /home/"${username}"/code/github.com
-cd /home/"${username}"/code/github.com
+mkdir -p /home/"${username}"/code/github.com/ivanlemeshev
+cd /home/"${username}"/code/github.com/ivanlemeshev
 git clone https://github.com/ivanlemeshev/dot.git
 cd -
 

@@ -4,8 +4,10 @@
 # non-zero status.
 set -e
 
-image_name="ivanlemeshev/workspace"
-container_name="ivanlemeshev_workspace"
+source ./scripts/functions.sh
+
+image_name="my/workspace"
+container_name="my_workspace"
 
 docker stop "${container_name}"
 docker rm "${container_name}"

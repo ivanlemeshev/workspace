@@ -19,7 +19,7 @@ This will build and run the container and ask you some questions to set up it.
 To set up the workspace, you can use the following command:
 
 ```bash
-cd code/github.com/dot
+cd code/github.com/ivanlemeshev/dot
 ./setup-ubuntu.sh
 ```
 

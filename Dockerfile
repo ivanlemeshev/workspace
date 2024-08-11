@@ -9,6 +9,8 @@ RUN apt update \
     && apt autoremove -y \
     && apt autoclean -y
 
+
+COPY ./scripts/functions.sh /functions.sh
 COPY ./workspace/entry.sh /entry.sh
 
-ENTRYPOINT ["sh", "/entry.sh"]
+ENTRYPOINT ["bash", "/entry.sh"]

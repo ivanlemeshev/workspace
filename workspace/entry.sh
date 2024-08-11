@@ -1,25 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
+source /functions.sh
+
 # Use the configured user if the container has been configured already.
-if [ -e /var/run/configured ]; then
+if [[ -e /var/run/configured ]]; then
   exec sh -c "su - $(head -1 /var/run/configured_user)"
 fi
-
-prompt_input() {
-    if [ -n $2 ]; then
-        read -p "$1 ($2): " input
-    else
-        read -p "$1: " input
-    fi
-    [ -n "${input}" ] || input="$2"
-
-    input="${input#"${input%%[![:space:]]*}"}" # Trim leading whitespace
-    input="${input%"${input##*[![:space:]]}"}" # Trim trailing whitespace
-
-    echo "${input}"
-}
 
 # Ask the user information for the configuration on the first run.
 username=$(prompt_input "What username do you want to use?" "user")

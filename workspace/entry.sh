@@ -2,11 +2,12 @@
 
 set -e
 
-source /functions.sh
+source /functions/prompt_input.sh
+source /functions/print_header.sh
 
 # Use the configured user if the container has been configured already.
 if [[ -e /var/run/configured ]]; then
-  exec sh -c "su - $(head -1 /var/run/configured_user)"
+    exec sh -c "su - $(head -1 /var/run/configured_user)"
 fi
 
 # Ask the user information for the configuration on the first run.
@@ -27,7 +28,7 @@ groupadd -g "${groupid}" "${group}"
 useradd -m -s "/bin/bash" -d "${home_directory}" -u "${userid}" -g "${groupid}" "${username}"
 
 # The user can run any command as any user without being asked for a password.
-echo "${username} ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
+echo "${username} ALL=(ALL:ALL) NOPASSWD:ALL" >>/etc/sudoers
 
 mkdir -p /home/"${username}"/code/github.com/ivanlemeshev
 cd /home/"${username}"/code/github.com/ivanlemeshev
@@ -42,8 +43,7 @@ chown -R "${username}:${group}" "${home_directory}"
 touch /var/run/configured
 
 # Save the configured useusernamer to a file to use it in the next run.
-echo "${username}" > /var/run/configured_user
-
+echo "${username}" >/var/run/configured_user
 
 # The su command is used to switch users, and the - option tells su to make the
 # environment the same as if the new user had logged in directly.
